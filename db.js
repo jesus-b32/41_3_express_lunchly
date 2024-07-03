@@ -1,8 +1,19 @@
 /** Database for lunchly */
 
-const pg = require("pg");
+const { Client } = require("pg");
 
-const db = new pg.Client("postgresql:///lunchly");
+let DB_URI;
+
+//using enviromental variables for databasee url
+if (process.env.NODE_ENV === "test") {
+    DB_URI = process.env.DATABASE_TEST_URL;
+} else {
+    DB_URI = process.env.DATABASE_URL;
+}
+
+const db = new Client({
+    connectionString: DB_URI
+});
 
 db.connect();
 
